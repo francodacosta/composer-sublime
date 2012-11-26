@@ -1,0 +1,26 @@
+{
+    // Plugin settings
+
+    // Shoe messages / progress in status bar
+    "show_status": true,
+
+    // shows the output of composer ?
+    // if you disable it you get no information about composer progress (or even errors)
+    "show_output": true,
+
+    /*
+     * Path to composer binary.
+     * A relative path is relative to the composer.json file
+     */
+    "composer_command":  "./composer.phar",
+
+    // Extra arguments for composer install command
+    "composer_install_extra" : ["-n", "-v"],
+
+    // Extra arguments for composer install command
+    "composer_update_extra" : ["-n", "-v"],
+
+    // Extra arguments for composer install command
+    "composer_selfupdate_extra" : ["-n", "-v"]
+
+}

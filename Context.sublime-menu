@@ -1,0 +1,12 @@
+[
+    { "caption": "-" },
+    {
+        "caption": "Composer",
+        "children":
+        [
+            { "command": "composer_install", "caption": "Install" },
+            { "command": "composer_update", "caption": "Update" },
+            { "command": "composer_self_update", "caption": "Update Composer" }
+        ]
+    }
+]

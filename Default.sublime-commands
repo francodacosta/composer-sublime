@@ -1,0 +1,15 @@
+[
+
+    {
+        "caption": "Composer: Install",
+        "command": "composer_install"
+    },
+    {
+        "caption": "Composer: Update",
+        "command": "composer_update"
+    },
+    {
+        "caption": "Composer: Self Update",
+        "command": "composer_self_update"
+    }
+]
