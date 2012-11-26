@@ -1,3 +1,11 @@
+"""
+    Composer Integration for Sublime Text 2
+
+    @author  Nuno Franco da Costa <nuno@francodacosta.com>
+    @license BSD - see LICENSE.md
+    @link    git@github.com:francodacosta/composer-sublime.git
+"""
+
 import sublime
 import sublime_plugin
 import functools
