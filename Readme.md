@@ -1,5 +1,5 @@
 #Composer integration for Sublime Text 2
-This plugin aloows you to install and update dependencies with [http://www.getcomposer.org/](composer)
+This plugin aloows you to install and update dependencies with [composer](http://www.getcomposer.org/)
 
 ##Instalation
 ### via Package Control
