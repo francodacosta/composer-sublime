@@ -1,6 +1,9 @@
 [
 
     {
+        "caption": "Composer: Edit composer.json",
+        "command": "edit_composer_file"
+    },{
         "caption": "Composer: Install",
         "command": "composer_install"
     },

@@ -13,6 +13,7 @@ import os
 import subprocess
 import time
 import thread
+import json
 
 
 def debug_msg(msg):
@@ -310,6 +311,43 @@ class BaseComposerCommand(sublime_plugin.TextCommand):
 
         worker.doWork()
 
+class Packagist(object):
+    def getPackages(self):
+        pass
+
+    def searchPackages(self):
+        pass
+
+class ComposerJson(object):
+    def __init__(self, file):
+        self.composerFile = file
+
+    def getPackagesAsList(self):
+        require = self.toJson()['require']
+        print require
+        ret = []
+        for key in require:
+            ret.append([key, "Version: %s" % require[key]])
+
+        return ret
+
+    def toJson(self):
+        return json.load(open(self.composerFile))
+        pass
+
+    def removePackage(self, id):
+        json = self.toJson()
+
+        del json['require'][id]
+
+        print json
+        pass
+
+    def addPackage(seld, name, version):
+        pass
+    def save(self):
+        pass
+
 class ComposerInstallCommand(BaseComposerCommand):
     def run(self, edit):
         bin  = Prefs.composerCommand
@@ -333,7 +371,20 @@ class ComposerSelfUpdateCommand(BaseComposerCommand):
         args = Prefs.composerSelfUpdateExtra
 
         self.go(bin, cmd, args)
-class TestCommand(sublime_plugin.TextCommand):
+
+class EditComposerFileCommand(BaseComposerCommand):
+    def run(self, edit):
+        composerJsonFile = os.path.join(self.locateComposerJsonFolder(), 'composer.json')
+        self.view.window().open_file(composerJsonFile)
+
+class TestCommand(BaseComposerCommand):
     def run(self,a):
-        statusMessage = StatusMessage(self.view)
-        statusMessage.start()
+        # statusMessage = StatusMessage(self.view)
+        # statusMessage.start()
+        composerJson = ComposerJson(os.path.join(self.locateComposerJsonFolder(), 'composer.json') )
+        print composerJson.toJson()
+
+        self.view.window().show_quick_panel(composerJson.getPackagesAsList(), composerJson.removePackage)
+    def ret(self, a):
+        print a
+
