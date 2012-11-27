@@ -11,6 +11,14 @@ Go to your sublime package folder and type:
 ##Running Composer
 Just open the command prompt (ctrl + shifp + p) and type composer, context menus are also provided
 
+Currently the following features are supported:
+
+* composer install
+* composer update
+* composer self-update
+* edit composer.json file
+
+
 ##Configuration Options
 
 * __show_status__: show messages in the status bar
