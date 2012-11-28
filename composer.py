@@ -32,7 +32,7 @@ class Prefs:
     def load():
         settings = sublime.load_settings('composer-sublime.sublime-settings')
 
-        Prefs.debug                   = settings.get('show_debug')
+        Prefs.debug                   = settings.get('show_debug', 1)
         Prefs.showOutput              = settings.get('show_output')
         Prefs.showStatus              = settings.get('show_status')
 
@@ -134,18 +134,30 @@ class Worker(object):
         self.startStatusProgress()
         shell = os.name == 'nt'
 
-        self.proc = subprocess.Popen(
-            self.command,
-            shell  = shell,
-            stdout = subprocess.PIPE,
-            stderr = subprocess.PIPE,
-            cwd    = self.workingDir
-        )
+        self.appendData("executing: %s\n" % ' '.join(self.command))
 
-        if self.proc.stdout:
-            thread.start_new_thread(self.readStdOut, ())
-        if self.proc.stderr:
-            thread.start_new_thread(self.readStdErr, ())
+        try:
+            self.proc = subprocess.Popen(
+                self.command,
+                shell  = shell,
+                stdout = subprocess.PIPE,
+                stderr = subprocess.PIPE,
+                cwd    = self.workingDir
+            )
+
+            if self.proc.stdout:
+                thread.start_new_thread(self.readStdOut, ())
+            if self.proc.stderr:
+                thread.start_new_thread(self.readStdErr, ())
+
+        except Exception, e:
+            msg = "Error: %s" % e
+            debug_msg(msg)
+            self.appendData(msg)
+            self.statusBar.stop = True
+            self.statusBar.error = True
+            # self.stopStatusProgress()
+            thread.start_new_thread(self.statusBar.timedMessage,(msg))
 
     def appendData(self, data):
         if self.outputWindow is None:
@@ -166,6 +178,7 @@ class Worker(object):
             debug.debug_msg("Skipping status bar messages")
             return
         self.statusBar.stop = True
+        # self.statusBar.clear()
 
     def readStdOut(self):
         while True:
@@ -195,6 +208,7 @@ class StatusMessage():
         self.view = view
         self.stop = False
         self.enabled = False
+        self.error = False
 
     def setEnabled(self, boolean):
         self.enabled = boolean
@@ -216,24 +230,29 @@ class StatusMessage():
     def showStatusProgress(self, progress = 1, size=10):
         # t=0
         while self.stop is False:
-            if progress == size:
+            if progress ==  2 * size:
                 progress = 0
 
-            before = progress % size
-            after = (size - 1) - before
+            if progress < size :
+                before = progress + 1
+                after = (size ) - before
+            else:
+                before = size - progress % size -1
+                after = (size ) - before
 
             msg = "Running Composer [%s=%s]" % (' ' * before, ' ' * after)
 
             self.message(msg)
             #sublime.set_timeout(functools.partial(self.view.set_status, msg), 0)
-            time.sleep(0.5)
+            time.sleep(0.1)
             progress += 1
             # t +=1
             # print t
             # if t == 20:
             #     break
-        self.message("Composer finished")
-        time.sleep(3)
+        if self.error is False :
+            self.message("Composer finished")
+            time.sleep(3)
         self.clear()
 
     def start(self):
