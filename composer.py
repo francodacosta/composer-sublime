@@ -205,6 +205,11 @@ class StatusMessage():
 
         self.view.set_status("composer", msg )
 
+    def timedMessage(self, msg, sleep = 5):
+         self.message(msg)
+         time.sleep(sleep)
+         self.clear()
+
     def clear(self):
         self.view.erase_status('composer')
 
@@ -237,6 +242,10 @@ class StatusMessage():
 
 
 class BaseComposerCommand(sublime_plugin.TextCommand):
+
+    def showTimedStatusMessage(self, msg):
+        sm = self.getStatusMessage()
+        sm.timedMessage(msg)
 
     def locateComposerJsonFolder(self):
         locator = FolderLocator(os.path.dirname(self.view.file_name()))
@@ -318,35 +327,60 @@ class Packagist(object):
     def searchPackages(self):
         pass
 
-class ComposerJson(object):
-    def __init__(self, file):
-        self.composerFile = file
+class ComposerJsonPackages(object):
+    def __init__(self):
+        self.packages = []
 
-    def getPackagesAsList(self):
-        require = self.toJson()['require']
-        print require
-        ret = []
-        for key in require:
-            ret.append([key, "Version: %s" % require[key]])
+    def addPackage(self, name, version = '*'):
+        self.packages.append([name, version])
+
+    def removePackage(self, index):
+        del (self.packages[index])
+
+    def toList(self):
+        return self.packages
+
+    def toDict(self):
+        ret = {}
+        for key, data in self.packages:
+            ret[key] = data
 
         return ret
+
+class ComposerJsonFileLoader(object):
+    def __init__(self, file):
+        self.composerFile = file
+        self.packageList = None
+
+    def getPackages(self):
+
+        if self.packageList is None:
+            require = self.toJson()['require']
+            packageList = ComposerJsonPackages()
+
+            for key in require:
+                packageList.addPackage(key, require[key])
+
+            self.packageList = packageList
+
+        return self.packageList
+
+    def removePackage(self, index):
+        print "before: ", len (self.packageList.toList())
+        self.packageList.removePackage(index)
+        print "after: ", len (self.packageList.toList())
 
     def toJson(self):
         return json.load(open(self.composerFile))
         pass
 
-    def removePackage(self, id):
-        json = self.toJson()
-
-        del json['require'][id]
-
-        print json
-        pass
-
-    def addPackage(seld, name, version):
-        pass
     def save(self):
-        pass
+        jsonObj = self.toJson()
+        jsonObj['require'] = self.packageList.toDict()
+
+        print  self.packageList.toDict()
+
+        json.dump(jsonObj, open(self.composerFile, 'w'),indent=4 )
 
 class ComposerInstallCommand(BaseComposerCommand):
     def run(self, edit):
@@ -377,14 +411,20 @@ class EditComposerFileCommand(BaseComposerCommand):
         composerJsonFile = os.path.join(self.locateComposerJsonFolder(), 'composer.json')
         self.view.window().open_file(composerJsonFile)
 
-class TestCommand(BaseComposerCommand):
+class ComposerRemovePackageCommand(BaseComposerCommand):
     def run(self,a):
-        # statusMessage = StatusMessage(self.view)
-        # statusMessage.start()
-        composerJson = ComposerJson(os.path.join(self.locateComposerJsonFolder(), 'composer.json') )
-        print composerJson.toJson()
+        self.composerJson = ComposerJsonFileLoader(os.path.join(self.locateComposerJsonFolder(), 'composer.json') )
 
-        self.view.window().show_quick_panel(composerJson.getPackagesAsList(), composerJson.removePackage)
-    def ret(self, a):
-        print a
+        packages = self.composerJson.getPackages().toList()
+        self.view.window().show_quick_panel(packages, self.removePackage)
+
+    def removePackage(self, index):
+        try:
+            self.composerJson.removePackage(index)
+            self.composerJson.save()
+            thread.start_new_thread(self.showTimedStatusMessage, ("package removed",))
+        except Exception, e:
+            ow = OutputWindow(self.view.window())
+            ow.write("Composer Error:\n\t" )
+            ow.write("%s" % e)
 

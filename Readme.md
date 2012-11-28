@@ -16,8 +16,29 @@ Currently the following features are supported:
 * composer install
 * composer update
 * composer self-update
+* remove a package from composer.json
 * edit composer.json file
 
+##Features
+###Composer install
+executes the composer install command, with the default settings the following command will be executed
+```composer.phar install -n -v```
+
+###Composer update
+executes the composer update command, with the default settings the following command will be executed
+```composer.phar update -n -v```
+
+###Composer self update
+executes the composer self update command, updating the composer binary to the latest version.
+With the default settings the following command will be executed
+```composer.phar self-update -n -v```
+
+###Composer Remove Package
+Removes a package from the required packages section in *composer.json*
+When you select this option a list of required packages will pop up, you only need to select the package to be removed
+
+###Edit composer.json file
+this option will open a new window pointing to the composer.json file
 
 ##Configuration Options
 
@@ -28,6 +49,6 @@ Currently the following features are supported:
 * __composer_update_extra__: extra arguments to pass to the *update* command
 * __composer_selfupdate_extra__: extra arguments to pass to the *self-update* command
 
-##How it works
+##How composer.json is found
 The plugin tries to locate the *composer.json* file. It starts at the same folder of the file beeing edited and goes all the way up to the root folder.
 If you do not specify the __composer_command__ option the default is to look for *composer.phar* on the same folder where *composer.json* was found
