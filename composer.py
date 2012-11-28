@@ -352,6 +352,8 @@ class ComposerJsonFileLoader(object):
         self.composerFile = file
         self.packageList = None
 
+        self.getPackages()
+
     def getPackages(self):
 
         if self.packageList is None:
@@ -366,9 +368,13 @@ class ComposerJsonFileLoader(object):
         return self.packageList
 
     def removePackage(self, index):
-        print "before: ", len (self.packageList.toList())
         self.packageList.removePackage(index)
+
+    def addPackage(self, name, version = '*'):
+        print "before: ", len (self.packageList.toList())
+        self.packageList.addPackage(name, version)
         print "after: ", len (self.packageList.toList())
+
 
     def toJson(self):
         return json.load(open(self.composerFile))
@@ -377,8 +383,6 @@ class ComposerJsonFileLoader(object):
     def save(self):
         jsonObj = self.toJson()
         jsonObj['require'] = self.packageList.toDict()
-
-        print  self.packageList.toDict()
 
         json.dump(jsonObj, open(self.composerFile, 'w'),indent=4 )
 
@@ -412,7 +416,7 @@ class EditComposerFileCommand(BaseComposerCommand):
         self.view.window().open_file(composerJsonFile)
 
 class ComposerRemovePackageCommand(BaseComposerCommand):
-    def run(self,a):
+    def run(self, edit):
         self.composerJson = ComposerJsonFileLoader(os.path.join(self.locateComposerJsonFolder(), 'composer.json') )
 
         packages = self.composerJson.getPackages().toList()
@@ -423,6 +427,33 @@ class ComposerRemovePackageCommand(BaseComposerCommand):
             self.composerJson.removePackage(index)
             self.composerJson.save()
             thread.start_new_thread(self.showTimedStatusMessage, ("package removed",))
+        except Exception, e:
+            ow = OutputWindow(self.view.window())
+            ow.write("Composer Error:\n\t" )
+            ow.write("%s" % e)
+
+class ComposerAddPackageCommand(BaseComposerCommand):
+    def run(self, edit):
+         self.input = self.view.window().show_input_panel("Package to add:", "Syntax: package name : version (if not provided defaults to *)", self.doAddPackage, None, None)
+         self.input.sel().add(sublime.Region(0, 100))
+
+    def doAddPackage(self, rawPackage):
+        try:
+            self.composerJson = ComposerJsonFileLoader(os.path.join(self.locateComposerJsonFolder(), 'composer.json') )
+
+            splitInput = rawPackage.split(':')
+            name = splitInput[0]
+            if 1 == len(splitInput) :
+                version = "*"
+            else:
+                version =splitInput[1]
+
+            if 0 == len(name):
+                raise Exception('Please provide a package name')
+
+            self.composerJson.addPackage(name, version)
+            self.composerJson.save()
+            thread.start_new_thread(self.showTimedStatusMessage, ("package added",))
         except Exception, e:
             ow = OutputWindow(self.view.window())
             ow.write("Composer Error:\n\t" )

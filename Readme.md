@@ -6,7 +6,7 @@ Currently the following features are supported:
 * Execute composer update
 * Execute composer self-update
 * Package management:
-  * Remove package 
+  * Remove package
 * Edit composer.json file
 
 
@@ -40,6 +40,17 @@ executes the composer self update command, updating the composer binary to the l
 With the default settings the following command will be executed
 
 ```composer.phar self-update -n -v```
+
+###Composer Add Package
+You can add a package to the required package list.
+
+When you execute this command a prompt is presented (in the bottom of the screen) allowing you to specify the package name and version contraints
+
+The syntax for adding a package is as follows:
+
+```package name : version```
+
+if you do not specify a version the default will be ```*```
 
 ###Composer Remove Package
 Removes a package from the required packages section in *composer.json*

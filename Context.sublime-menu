@@ -6,7 +6,12 @@
         [
             { "command": "composer_install", "caption": "Install" },
             { "command": "composer_update", "caption": "Update" },
-            { "command": "composer_self_update", "caption": "Update Composer" }
+            { "command": "composer_self_update", "caption": "Update Composer" },
+            { "caption": "-" },
+            { "command": "edit_composer_file", "caption": "Edit composer.json" },
+            { "command": "composer_add_package", "caption": "Add package" },
+            { "command": "composer_remove_package", "caption": "Remove package" }
+
         ]
     }
 ]

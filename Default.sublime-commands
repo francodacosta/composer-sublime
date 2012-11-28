@@ -1,6 +1,10 @@
 [
 
     {
+        "caption": "Composer: Add Package",
+        "command": "composer_add_package"
+    },
+    {
         "caption": "Composer: Remove Package",
         "command": "composer_remove_package"
     },
