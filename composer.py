@@ -32,16 +32,18 @@ class Prefs:
     def load():
         settings = sublime.load_settings('composer-sublime.sublime-settings')
 
-        Prefs.debug                   = settings.get('show_debug', 1)
-        Prefs.showOutput              = settings.get('show_output')
-        Prefs.showStatus              = settings.get('show_status')
+        Prefs.debug                     = settings.get('show_debug', 1)
+        Prefs.showOutput                = settings.get('show_output')
+        Prefs.showStatus                = settings.get('show_status')
 
-        Prefs.composerCommand         = settings.get('composer_command')
-        Prefs.composerFile            = settings.get('composer_file', 'composer.json')
+        Prefs.composerCommand           = settings.get('composer_command')
+        Prefs.composerFile              = settings.get('composer_file', 'composer.json')
 
-        Prefs.composerInstallExtra    = settings.get('composer_install_extra')
-        Prefs.composerUpdateExtra     = settings.get('composer_update_extra')
-        Prefs.composerSelfUpdateExtra = settings.get('composer_selfupdate_extra')
+        Prefs.composerInstallExtra      = settings.get('composer_install_extra')
+        Prefs.composerUpdateExtra       = settings.get('composer_update_extra')
+        Prefs.composerSelfUpdateExtra   = settings.get('composer_selfupdate_extra')
+        Prefs.composerRequireExtra      = settings.get('composer_require_extra')
+        Prefs.composerDumpAutoloadExtra = settings.get('composer_dumpautoload_extra')
 
 Prefs.load()
 
@@ -161,7 +163,7 @@ class Worker(object):
 
     def appendData(self, data):
         if self.outputWindow is None:
-            debug.debug_msg("Skipping output window messages")
+            debug_msg("Skipping output window messages")
             return
         self.counter = self.counter + 1
         self.outputWindow.window.active_view().set_status("Composer", "%s" % self.counter)
@@ -169,13 +171,13 @@ class Worker(object):
 
     def startStatusProgress(self):
         if self.statusBar is None:
-            debug.debug_msg("Skipping status bar messages")
+            debug_msg("Skipping status bar messages")
             return
         self.statusBar.start()
 
     def stopStatusProgress(self):
         if self.statusBar is None:
-            debug.debug_msg("Skipping status bar messages")
+            debug_msg("Skipping status bar messages")
             return
         self.statusBar.stop = True
         # self.statusBar.clear()
@@ -429,6 +431,14 @@ class ComposerSelfUpdateCommand(BaseComposerCommand):
 
         self.go(bin, cmd, args)
 
+class ComposerDumpAutoloadCommand(BaseComposerCommand):
+    def run(self, edit):
+        bin  = Prefs.composerCommand
+        cmd  = 'dump-autoload'
+        args = Prefs.composerDumpAutoloadExtra
+
+        self.go(bin, cmd, args)
+
 class EditComposerFileCommand(BaseComposerCommand):
     def run(self, edit):
         composerJsonFile = os.path.join(self.locateComposerJsonFolder(), 'composer.json')
@@ -456,6 +466,8 @@ class ComposerAddPackageCommand(BaseComposerCommand):
          self.input = self.view.window().show_input_panel("Package to add:", "Syntax: package name : version (if not provided defaults to *)", self.doAddPackage, None, None)
          self.input.sel().add(sublime.Region(0, 100))
 
+
+
     def doAddPackage(self, rawPackage):
         try:
             self.composerJson = ComposerJsonFileLoader(os.path.join(self.locateComposerJsonFolder(), 'composer.json') )
@@ -470,9 +482,12 @@ class ComposerAddPackageCommand(BaseComposerCommand):
             if 0 == len(name):
                 raise Exception('Please provide a package name')
 
-            self.composerJson.addPackage(name, version)
-            self.composerJson.save()
-            thread.start_new_thread(self.showTimedStatusMessage, ("package added",))
+            bin  = Prefs.composerCommand
+            cmd  = 'require'
+            args = ["%s:%s" %(name, version)] + Prefs.composerRequireExtra
+
+            self.go(bin, cmd, args)
+
         except Exception, e:
             ow = OutputWindow(self.view.window())
             ow.write("Composer Error:\n\t" )

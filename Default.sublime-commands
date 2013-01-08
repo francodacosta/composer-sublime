@@ -23,5 +23,9 @@
     {
         "caption": "Composer: Self Update",
         "command": "composer_self_update"
+    },
+    {
+        "caption": "Composer: Dump Autoload",
+        "command": "composer_dump_autoload"
     }
 ]

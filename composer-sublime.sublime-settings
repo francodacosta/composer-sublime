@@ -1,7 +1,10 @@
 {
     // Plugin settings
 
-    // Shoe messages / progress in status bar
+    // show debug messages?
+    "show_debug": false,
+
+    // Show messages / progress in status bar?
     "show_status": true,
 
     // shows the output of composer ?
@@ -21,6 +24,12 @@
     "composer_update_extra" : ["-n", "-v"],
 
     // Extra arguments for composer install command
-    "composer_selfupdate_extra" : ["-n", "-v"]
+    "composer_selfupdate_extra" : ["-n", "-v"],
+
+    // Extra arguments for composer install command
+    "composer_dumpautoload_extra" : ["-n", "-v"],
+
+    // Extra arguments for composer require command
+    "composer_require_extra" : ["-n", "-v"]
 
 }
