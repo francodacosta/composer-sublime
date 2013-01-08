@@ -5,8 +5,10 @@ Currently the following features are supported:
 * Execute composer install
 * Execute composer update
 * Execute composer self-update
+* Execute composer dump-autoload
 * Package management:
-  * Remove package
+  * add package
+  * remove package
 * Edit composer.json file
 
 
@@ -41,6 +43,12 @@ With the default settings the following command will be executed
 
 ```composer.phar self-update -n -v```
 
+###Composer dump autoload
+executes the composer dump autoload command to regenerate the autloader configuration
+With the default settings the following command will be executed
+
+```composer.phar dump-autoload -n -v```
+
 ###Composer Add Package
 You can add a package to the required package list.
 
@@ -57,6 +65,8 @@ Removes a package from the required packages section in *composer.json*
 
 When you select this option a list of required packages will pop up, you only need to select the package to be removed
 
+__Note__: this just removes the reference from _composer.json__ it will not remove any files
+
 ###Edit composer.json file
 this option will open a new window pointing to the composer.json file
 
@@ -67,6 +77,7 @@ this option will open a new window pointing to the composer.json file
 * __composer_command__:  Path to composer.phar file
 * __composer_install_extra__: extra arguments to pass to the *install* command
 * __composer_update_extra__: extra arguments to pass to the *update* command
+* __composer_dumpautoload_extra__: extra arguments to pass to the *dump-autoload* command
 * __composer_selfupdate_extra__: extra arguments to pass to the *self-update* command
 
 ##How is composer.json found?

@@ -1,2 +1,5 @@
 *.pyc
 *.pyo
+composer.json
+composer.phar
+vendor/
