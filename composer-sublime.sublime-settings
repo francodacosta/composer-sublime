@@ -20,14 +20,14 @@
     // Extra arguments for composer install command
     "composer_install_extra" : ["-n", "-v"],
 
-    // Extra arguments for composer install command
+    // Extra arguments for composer update command
     "composer_update_extra" : ["-n", "-v"],
 
-    // Extra arguments for composer install command
+    // Extra arguments for composer self-update command
     "composer_selfupdate_extra" : ["-n", "-v"],
 
-    // Extra arguments for composer install command
-    "composer_dumpautoload_extra" : ["-n", "-v"],
+    // Extra arguments for composer dump-autoload command
+    "composer_validate_extra" : ["-n", "-v"],
 
     // Extra arguments for composer require command
     "composer_require_extra" : ["-n", "-v"]

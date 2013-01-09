@@ -27,5 +27,9 @@
     {
         "caption": "Composer: Dump Autoload",
         "command": "composer_dump_autoload"
+    },
+    {
+        "caption": "Composer: Validate composer.json",
+        "command": "composer_validate"
     }
 ]

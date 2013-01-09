@@ -7,9 +7,10 @@ Currently the following features are supported:
 * Execute composer self-update
 * Execute composer dump-autoload
 * Package management:
-  * add package
-  * remove package
+  * Add package
+  * Remove package
 * Edit composer.json file
+* Validate a composer.json file
 
 
 ##Instalation
@@ -48,6 +49,12 @@ executes the composer dump autoload command to regenerate the autloader configur
 With the default settings the following command will be executed
 
 ```composer.phar dump-autoload -n -v```
+
+###Composer validade
+executes the composer validate command
+With the default settings the following command will be executed
+
+```composer.phar validate -n -v```
 
 ###Composer Add Package
 You can add a package to the required package list.

@@ -44,6 +44,7 @@ class Prefs:
         Prefs.composerSelfUpdateExtra   = settings.get('composer_selfupdate_extra')
         Prefs.composerRequireExtra      = settings.get('composer_require_extra')
         Prefs.composerDumpAutoloadExtra = settings.get('composer_dumpautoload_extra')
+        Prefs.composerValidateExtra     = settings.get('composer_validate_extra')
 
 Prefs.load()
 
@@ -436,6 +437,14 @@ class ComposerDumpAutoloadCommand(BaseComposerCommand):
         bin  = Prefs.composerCommand
         cmd  = 'dump-autoload'
         args = Prefs.composerDumpAutoloadExtra
+
+        self.go(bin, cmd, args)
+
+class ComposerValidateCommand(BaseComposerCommand):
+    def run(self, edit):
+        bin  = Prefs.composerCommand
+        cmd  = 'validate'
+        args = Prefs.composerValidateExtra
 
         self.go(bin, cmd, args)
 
