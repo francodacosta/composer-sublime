@@ -1,4 +1,7 @@
-#Composer integration for Sublime Text 2
+#Composer integration for Sublime Text 2 & 3
+
+__ ST3 support is still beta, please report issues __
+
 With this plugin you can manage your dependencies with [composer](http://www.getcomposer.org/)
 
 Currently the following features are supported:

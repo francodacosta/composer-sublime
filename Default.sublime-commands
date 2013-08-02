@@ -1,35 +1,25 @@
 [
 
-    {
-        "caption": "Composer: Add Package",
-        "command": "composer_add_package"
-    },
-    {
-        "caption": "Composer: Remove Package",
-        "command": "composer_remove_package"
-    },
-    {
-        "caption": "Composer: Edit composer.json",
-        "command": "edit_composer_file"
-    },
-    {
-        "caption": "Composer: Install",
-        "command": "composer_install"
-    },
-    {
-        "caption": "Composer: Update",
-        "command": "composer_update"
-    },
-    {
-        "caption": "Composer: Self Update",
-        "command": "composer_self_update"
-    },
-    {
-        "caption": "Composer: Dump Autoload",
-        "command": "composer_dump_autoload"
-    },
-    {
-        "caption": "Composer: Validate composer.json",
-        "command": "composer_validate"
-    }
+    {"caption": "Composer: Add Package", "command": "composer_add_package"},
+    {"caption": "Composer: Add Package", "command": "st3_composer_add_package"},
+
+    {"caption": "Composer: Remove Package", "command": "composer_remove_package"},
+
+    {"caption": "Composer: Edit composer.json", "command": "edit_composer_file"},
+    {"caption": "Composer: Edit composer.json", "command": "st3_edit_composer_file"},
+
+    {"caption": "Composer: Install", "command": "composer_install"},
+    {"caption": "Composer: Install", "command": "st3_composer_install"},
+
+    {"caption": "Composer: Update", "command": "composer_update"},
+    {"caption": "Composer: Update", "command": "st3_composer_update"},
+
+    {"caption": "Composer: Self Update", "command": "st3_composer_self_update"},
+    {"caption": "Composer: Self Update", "command": "st3_composer_self_update"},
+
+    {"caption": "Composer: Dump Autoload", "command": "composer_dump_autoload"},
+    {"caption": "Composer: Dump Autoload", "command": "st3_composer_dump_autoload"},
+
+    {"caption": "Composer: Validate composer.json", "command": "composer_validate"},
+    {"caption": "Composer: Validate composer.json", "command": "st3_composer_validate"}
 ]

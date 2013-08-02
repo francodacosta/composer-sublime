@@ -5,8 +5,29 @@
         "children":
         [
             { "command": "composer_install", "caption": "Install" },
+            { "command": "st3_composer_install", "caption": "Install" },
+
             { "command": "composer_update", "caption": "Update" },
-            { "command": "composer_self_update", "caption": "Update Composer" }
+            { "command": "st3_composer_update", "caption": "Update" },
+
+            { "command": "composer_self_update", "caption": "Update Composer" },
+            { "command": "st3_composer_self_update", "caption": "Update Composer" },
+
+            { "command": "composer_dump_autoload", "caption": "Dump Autoload" },
+            { "command": "st3_composer_dump_autoload", "caption": "Dump Autoload" },
+
+            { "command": "composer_validate", "caption": "Validate composer.json" },
+            { "command": "st3_composer_validate", "caption": "Validate composer.json" },
+
+            { "caption": "-" },
+
+            { "command": "edit_composer_file", "caption": "Edit composer.json" },
+            { "command": "st3_edit_composer_file", "caption": "Edit composer.json" },
+
+            { "command": "composer_add_package", "caption": "Add package" },
+            { "command": "st3_composer_add_package", "caption": "Add package" },
+
+            { "command": "composer_remove_package", "caption": "Remove package" }
         ]
     }
 ]
