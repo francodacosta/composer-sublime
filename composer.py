@@ -6,22 +6,24 @@
     @link    git@github.com:francodacosta/composer-sublime.git
 """
 
-import sublime
-import sublime_plugin
-import functools
-import os
-import subprocess
-import time
-import thread
-import json
-
+try:
+    import sublime
+    import sublime_plugin
+    import functools
+    import os
+    import subprocess
+    import time
+    import thread
+    import json
+except Exception:
+    print ('some modules could not be inported (it is ok if using ST3')
 
 def debug_msg(msg):
     """
         Debug messages
     """
     if Prefs.debug == 1:
-        print "[Composer] " + msg
+        print( "[Composer] " + msg)
 
 class Prefs:
     """
@@ -153,7 +155,8 @@ class Worker(object):
             if self.proc.stderr:
                 thread.start_new_thread(self.readStdErr, ())
 
-        except Exception, e:
+        except Exception:
+            e = sys.exc_info()[1]
             msg = "Error: %s" % e
             debug_msg(msg)
             self.appendData(msg)
@@ -250,7 +253,7 @@ class StatusMessage():
             time.sleep(0.1)
             progress += 1
             # t +=1
-            # print t
+            # #print t
             # if t == 20:
             #     break
         if self.error is False :
@@ -321,7 +324,8 @@ class BaseComposerCommand(sublime_plugin.TextCommand):
         try:
             workingDir = self.locateComposerJsonFolder()
             os.chdir(workingDir)
-        except Exception, e :
+        except Exception :
+            e = sys.exc_info()[1]
             outputWindow.write("Error: : %s" % e)
             msg = "[ERROR] Composer.json not found"
             thread.start_new_thread(self.statusMessage, (msg, statusMessage))
@@ -408,9 +412,9 @@ class ComposerJsonFileLoader(object):
         self.packageList.removePackage(index)
 
     def addPackage(self, name, version = '*'):
-        print "before: ", len (self.packageList.toList())
+        #print "before: ", len (self.packageList.toList())
         self.packageList.addPackage(name, version)
-        print "after: ", len (self.packageList.toList())
+        #print "after: ", len (self.packageList.toList())
 
 
     def toJson(self):
@@ -480,7 +484,8 @@ class ComposerRemovePackageCommand(BaseComposerCommand):
             self.composerJson.removePackage(index)
             self.composerJson.save()
             thread.start_new_thread(self.showTimedStatusMessage, ("package removed",))
-        except Exception, e:
+        except Exception:
+            e = sys.exc_info()[1]
             ow = OutputWindow(self.view.window())
             ow.write("Composer Error:\n\t" )
             ow.write("%s" % e)
@@ -512,7 +517,8 @@ class ComposerAddPackageCommand(BaseComposerCommand):
 
             self.go(bin, cmd, args)
 
-        except Exception, e:
+        except Exception:
+            e = sys.exc_info()[1]
             ow = OutputWindow(self.view.window())
             ow.write("Composer Error:\n\t" )
             ow.write("%s" % e)
