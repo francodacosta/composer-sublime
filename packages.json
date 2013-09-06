@@ -1,0 +1,20 @@
+{
+    "schema_version": "2.0",
+
+    "packages": [
+
+        {
+            "name": "Composer integration for Sublime Text",
+            "author": "Nuno Franco da Costa",
+            "details": "https://github.com/francodacosta/composer-sublime",
+            "labels": ["php", "snippets", "code generation", "composer", "tools"],
+            "releases": [
+                {
+                    "sublime_text": "*",
+                    "details": "https://github.com/francodacosta/composer-sublime"
+                }
+            ]
+        }
+        
+    ]
+}
