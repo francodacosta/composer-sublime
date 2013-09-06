@@ -10,7 +10,11 @@
             "labels": ["php", "snippets", "code generation", "composer", "tools"],
             "releases": [
                 {
-                    "sublime_text": "*",
+                    "sublime_text": "<2999",
+                    "details": "https://github.com/francodacosta/composer-sublime"
+                },
+                {
+                    "sublime_text": ">3000",
                     "details": "https://github.com/francodacosta/composer-sublime"
                 }
             ]
