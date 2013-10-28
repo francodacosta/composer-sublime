@@ -33,6 +33,6 @@
     "composer_require_extra" : ["-n", "-v"],
 
     // Extra arguments for composer dump-autoload command
-    "composer_require_extra" : ["-n", "-v"]
+    "composer_dumpautoload_extra" : ["-n", "-v"]
 
 }
