@@ -30,6 +30,9 @@
     "composer_validate_extra" : ["-n", "-v"],
 
     // Extra arguments for composer require command
-    "composer_require_extra" : ["-n", "-v"]
+    "composer_require_extra" : ["-n", "-v"],
+
+    // Extra arguments for composer dump-autoload command
+    "composer_dumpautoload_extra" : ["-n", "-v"]
 
 }
